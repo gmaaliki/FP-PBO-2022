@@ -24,7 +24,12 @@ public class MinesweeperApp extends Application {
     
     @Override
     public void start(Stage stage) {
-        startGame game = new startGame(20,15);
+        int W = 20;
+        int H = 15;
+        
+        Tiles[][] grid = new Tiles[W][H];
+        Tiles game = new Tiles(W, H, false);
+        
         Scene scene = new Scene(game.createContent());
         
         stage.setScene(scene);
