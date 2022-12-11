@@ -10,16 +10,20 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class Tile extends StackPane implements ClickBehaviour {
+    
     ArrayList<Tile> neighbours = new ArrayList<>();
     Button btn = new Button();
+    
     private final int x = 0, y = 0;
     private boolean active = true;
     static final int TILE_SIZE = 40;
     boolean hasBomb;
-    boolean flagged = false;
-    Color color = null;
     int bombs = 0;
+    boolean flagged = false;
+    
+    Color color = null;
     static Image flag = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\flag.png");
+    static Image mine = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\mine.png");
         
     public Tile(int x, int y, boolean hasBomb) {
         this.hasBomb = hasBomb;

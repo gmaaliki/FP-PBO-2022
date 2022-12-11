@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -16,19 +17,19 @@ import javafx.scene.paint.Color;
 public class Main extends Application{
     static final int WIDTH = 10;
     static final int HEIGHT = 10;
-    static int foundBombs, numBombs, bombPercent = 10;
+    static int foundBombs, numBombs;
+    private static final int bombPercent = 10;
     
     private static Tile[][] grid;
-    private Scene scene;
-    private static Stage stage;
+    private static Stage main;
     private static VBox vbox = new VBox();
-    static Image mine = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\mine.png");
-    
+
+
     private static Parent createContent() {
         numBombs = 0;
         foundBombs = 0;
         Pane root = new Pane();
-        root.setPrefSize(HEIGHT*Tile.TILE_SIZE, WIDTH*Tile.TILE_SIZE);
+        root.setPrefSize(WIDTH*Tile.TILE_SIZE, HEIGHT*Tile.TILE_SIZE);
         
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -40,8 +41,7 @@ public class Main extends Application{
             }
         }
         
-        // Assign bombs randomly to tiles.
-        for(int i = 0; i < HEIGHT*WIDTH / bombPercent; i++){
+        for(int i = 0; i < HEIGHT * WIDTH / bombPercent; i++){
 
             Random rand = new Random();
 
@@ -61,13 +61,12 @@ public class Main extends Application{
             }
         }
 
-        // Add values to the tiles and set their colours accordingly.
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
 
                 int numNeighboursBomb = 0;
 
-                ArrayList<Tile> neighbours = new ArrayList<Tile>();
+                ArrayList<Tile> neighbours = new ArrayList<>();
 
                 int[] neighboursLocs = new int[] { -1, -1, -1, 0, -1, 1, 0, -1, 0, 1, 1, -1, 1, 0, 1, 1 };
 
@@ -93,7 +92,6 @@ public class Main extends Application{
                         Color.BLACK, Color.DARKGRAY };
 
                 grid[x][y].color = colors[grid[x][y].bombs];
-
             }
         }
         
@@ -102,24 +100,17 @@ public class Main extends Application{
         
     private static void reload() {
         grid = new Tile[WIDTH][HEIGHT];
-        vbox.getChildren().remove(1);
+        
+        vbox.getChildren().remove(0);
         vbox.getChildren().add(createContent());
-        stage.sizeToScene();
+        main.sizeToScene();
     }
     
     public static void win() {
-//        Image winTrophy = new Image("winTrophy.png");
-//        ImageView winTrophyView = new ImageView(winTrophy);
-//        winTrophyView.setSmooth(true);
-//        winTrophyView.setPreserveRatio(true);
-//        winTrophyView.setFitHeight(50);
-
         Alert win = new Alert(Alert.AlertType.CONFIRMATION);
-        ((Stage) win.getDialogPane().getScene().getWindow()).getIcons().add(mine);
+        ((Stage) win.getDialogPane().getScene().getWindow()).getIcons().add(Tile.mine);
         win.setTitle("Win!");
-//        win.setGraphic(winTrophyView);
         win.setHeaderText("Congratulations!");
-        win.setContentText("You found all the bombs! ");
         win.showAndWait();
         reload();
     }
@@ -128,19 +119,18 @@ public class Main extends Application{
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 if (grid[x][y].hasBomb) {
-                    grid[x][y].btn.setGraphic(new ImageView(mine));
+                    grid[x][y].btn.setGraphic(new ImageView(Tile.mine));
                     grid[x][y].btn.setDisable(true);
                 }
             }
         }
 
-        Alert gameOver = new Alert(Alert.AlertType.INFORMATION);
-        ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(mine);
+        Alert gameOver = new Alert(AlertType.INFORMATION);
+        ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(Tile.mine);
         gameOver.setTitle("Game Over!");
-        gameOver.setGraphic(new ImageView(mine));
+        gameOver.setGraphic(new ImageView(Tile.mine));
         gameOver.setHeaderText("Bomb Exploded!");
-        gameOver.setContentText(
-                "Oh no! You clicked on a bomb and caused all the bombs to explode! Better luck next time.");
+        gameOver.setContentText("Oh no! You clicked on a bomb and caused all the bombs to explode! Better luck next time.");
         gameOver.showAndWait();
         
         reload();
@@ -151,10 +141,13 @@ public class Main extends Application{
         grid = new Tile[WIDTH][HEIGHT];
 
         try {
+            main = stage;
             vbox.getChildren().add(createContent());
             Scene scene = new Scene(vbox);
-            stage.setScene(scene);
-            stage.show();            
+            main.setScene(scene);
+            main.setResizable(false);
+            main.sizeToScene();
+            main.show();     
         } catch(Exception e) {
             e.printStackTrace();
         }
