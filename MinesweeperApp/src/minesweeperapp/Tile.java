@@ -14,9 +14,8 @@ public class Tile extends StackPane implements ClickBehaviour {
     ArrayList<Tile> neighbours = new ArrayList<>();
     Button btn = new Button();
     
-    private final int x = 0, y = 0;
     private boolean active = true;
-    static final int TILE_SIZE = 40;
+    static final int TILE_SIZE = 30;
     boolean hasBomb;
     int bombs = 0;
     boolean flagged = false;
@@ -32,8 +31,8 @@ public class Tile extends StackPane implements ClickBehaviour {
             Main.numBombs++;
         }
         
-        btn.setMinHeight(TILE_SIZE);
-        btn.setMinWidth(TILE_SIZE);
+        btn.setPrefHeight(TILE_SIZE);
+        btn.setPrefWidth(TILE_SIZE);
         
         btn.setOnMouseClicked(this::onClick);
         getChildren().addAll(btn);
@@ -68,8 +67,8 @@ public class Tile extends StackPane implements ClickBehaviour {
             if (!flagged) {
                 flagged = true;
                 ImageView flagIcon = new ImageView(flag);
-                flagIcon.setFitHeight(30);
-                flagIcon.setFitWidth(20);
+                flagIcon.setFitHeight(15);
+                flagIcon.setFitWidth(10);
                 btn.setGraphic(flagIcon);
                 if (this.hasBomb) {
                     Main.foundBombs++;
