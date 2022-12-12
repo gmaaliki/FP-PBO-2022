@@ -67,7 +67,10 @@ public class Tile extends StackPane implements ClickBehaviour {
     else if (e.getButton() == MouseButton.SECONDARY) {
             if (!flagged) {
                 flagged = true;
-                btn.setGraphic(new ImageView(flag));
+                ImageView flagIcon = new ImageView(flag);
+                flagIcon.setFitHeight(30);
+                flagIcon.setFitWidth(20);
+                btn.setGraphic(flagIcon);
                 if (this.hasBomb) {
                     Main.foundBombs++;
                     if (Main.foundBombs == Main.numBombs)

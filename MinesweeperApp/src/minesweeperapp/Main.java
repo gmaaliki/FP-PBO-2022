@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class Main extends Application{
@@ -29,7 +31,7 @@ public class Main extends Application{
         numBombs = 0;
         foundBombs = 0;
         Pane root = new Pane();
-        root.setPrefSize(WIDTH*Tile.TILE_SIZE, HEIGHT*Tile.TILE_SIZE);
+        root.setPrefSize(WIDTH * Tile.TILE_SIZE, HEIGHT * Tile.TILE_SIZE);
         
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -119,7 +121,10 @@ public class Main extends Application{
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 if (grid[x][y].hasBomb) {
-                    grid[x][y].btn.setGraphic(new ImageView(Tile.mine));
+                    ImageView mineIcon = new ImageView(Tile.mine);
+                    mineIcon.setFitHeight(30);
+                    mineIcon.setFitWidth(20);
+                    grid[x][y].btn.setGraphic(mineIcon);
                     grid[x][y].btn.setDisable(true);
                 }
             }
@@ -135,19 +140,22 @@ public class Main extends Application{
         
         reload();
     }
-
+    
+    public void mainMenu() {
+        
+    }
+    
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) {
         grid = new Tile[WIDTH][HEIGHT];
-
         try {
-            main = stage;
+            main = primaryStage;
             vbox.getChildren().add(createContent());
             Scene scene = new Scene(vbox);
             main.setScene(scene);
             main.setResizable(false);
             main.sizeToScene();
-            main.show();     
+            main.show();
         } catch(Exception e) {
             e.printStackTrace();
         }
