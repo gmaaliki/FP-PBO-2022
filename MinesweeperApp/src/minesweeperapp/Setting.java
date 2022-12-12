@@ -1,7 +1,7 @@
 package minesweeperapp;
 
 public enum Setting {
-    EASY(8,8,10),
+    EASY(10,10,10),
     MEDIUM(16,13,15),
     HARD(30,16,20);
     

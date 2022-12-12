@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
@@ -15,15 +17,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
-
-
 
 public class Main extends Application{
     private static int WIDTH;
@@ -34,6 +33,7 @@ public class Main extends Application{
     
     private static Tile[][] grid;
     private static Stage stage;
+    private Score score = new Score();
     private static VBox vbox = new VBox();
 
     private static Parent createContent() {
@@ -112,21 +112,60 @@ public class Main extends Application{
     private static void reload() {
         grid = new Tile[Main.WIDTH][Main.HEIGHT];
         
+        Score score = new Score();
+        
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                score.incTime();
+            };
+        };
+        Score.timer.cancel();
+        Score.timer = new Timer();
+        Score.timer.schedule(task, 1000, 1000);
+        
         vbox.getChildren().remove(0);
         vbox.getChildren().add(createContent());
         stage.sizeToScene();
     }
     
     public static void win() {
+        
+        Score score = new Score();
+        
+        Image winImage = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\ThumbsUp.png");
+        ImageView winImageView = new ImageView(winImage);
+        
+        winImageView.setSmooth(true);
+        winImageView.setPreserveRatio(true);
+        winImageView.setFitHeight(50);
+
+        
         Alert win = new Alert(Alert.AlertType.CONFIRMATION);
         ((Stage) win.getDialogPane().getScene().getWindow()).getIcons().add(Tile.mine);
+        win.setGraphic(winImageView);
         win.setTitle("Win!");
-        win.setHeaderText("Congratulations!");
+        win.setHeaderText("Keep Going!");
+        win.setContentText("You found all the bombs in " + Score.getTime() + " seconds.");
         win.showAndWait();
         reload();
     }
     
     public static void gameOver() {
+        
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                if (grid[x][y].hasBomb) {
+                    ImageView mineIcon = new ImageView(Tile.mine);
+                    mineIcon.setFitHeight(15);
+                    mineIcon.setFitWidth(10);
+                    
+                    grid[x][y].btn.setGraphic(mineIcon);
+                    grid[x][y].btn.setDisable(true);
+                }
+            }
+        }
+        
         Alert gameOver = new Alert(AlertType.INFORMATION);
         ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(Tile.mine);
         gameOver.setTitle("Game Over!");
@@ -192,10 +231,21 @@ public class Main extends Application{
     
     @Override
     public void start(Stage primaryStage) {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                score.incTime();
+            }
+        };
+
+        Score.timer = new Timer();
+        Score.timer.scheduleAtFixedRate(task, 1000, 1000);
+        
         try {
             primaryStage.setTitle("Minesweeper");
             stage = primaryStage;
             Scene scene = new Scene(mainMenu(), 500, 500);
+            stage.getIcons().add(Tile.mine);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.sizeToScene();

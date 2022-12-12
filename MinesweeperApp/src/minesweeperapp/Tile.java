@@ -18,7 +18,7 @@ public class Tile extends StackPane implements ClickBehaviour {
     static final int TILE_SIZE = 30;
     boolean hasBomb;
     int bombs = 0;
-    boolean flagged = false;
+    private boolean flagged = false;
     
     Color color = null;
     static Image flag = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\flag.png");
@@ -48,7 +48,7 @@ public class Tile extends StackPane implements ClickBehaviour {
         if(!flagged) {
             btn.setBackground(null);
             btn.setDisable(true);
-            active = false;
+            active = true;
             if (hasBomb) {
                 Main.gameOver();
             } else {
@@ -90,6 +90,7 @@ public class Tile extends StackPane implements ClickBehaviour {
         for (int i = 0; i < tile.neighbours.size(); i++) {
             if (tile.neighbours.get(i).active) {
                 tile.neighbours.get(i).btn.setDisable(true);
+                tile.neighbours.get(i).btn.setBackground(null);
                 tile.neighbours.get(i).btn.setGraphic(null);
                 tile.neighbours.get(i).btn.setText(Integer.toString(tile.neighbours.get(i).bombs));
                 tile.neighbours.get(i).btn.setTextFill(tile.neighbours.get(i).color);
@@ -97,7 +98,6 @@ public class Tile extends StackPane implements ClickBehaviour {
                 if (tile.neighbours.get(i).bombs == 0) {
                     blankClick(tile.neighbours.get(i));
                 }
-
             }
         }
     }
