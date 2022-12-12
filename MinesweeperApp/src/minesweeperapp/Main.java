@@ -16,14 +16,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+
+
 public class Main extends Application{
     static final int WIDTH = 10;
     static final int HEIGHT = 10;
     static int foundBombs, numBombs;
     private static final int bombPercent = 10;
+    Difficulty difficulty;
     
     private static Tile[][] grid;
-    private static Stage main;
+    private static Stage stage;
     private static VBox vbox = new VBox();
 
 
@@ -105,7 +108,7 @@ public class Main extends Application{
         
         vbox.getChildren().remove(0);
         vbox.getChildren().add(createContent());
-        main.sizeToScene();
+        stage.sizeToScene();
     }
     
     public static void win() {
@@ -141,21 +144,50 @@ public class Main extends Application{
         reload();
     }
     
-    public void mainMenu() {
+    public Parent mainMenu() {
+        VBox root = new VBox();
+        Button btn1 = new Button();
+        Button btn2 = new Button();
+        Button btn3 = new Button();
+        btn1.setText("Easy");
+        btn2.setText("Medium");
+        btn3.setText("Hard");
         
+        btn1.setOnAction(e -> {
+            difficulty = Difficulty.EASY;
+            vbox.getChildren().add(createContent());
+            Scene scene = new Scene(vbox);
+            stage.setScene(scene);
+        });
+        
+        btn2.setOnAction(e -> {
+            difficulty = Difficulty.MEDIUM;
+            vbox.getChildren().add(createContent());
+            Scene scene = new Scene(vbox);
+            stage.setScene(scene);
+        });
+        
+        btn2.setOnAction(e -> {
+            difficulty = Difficulty.HARD;
+            vbox.getChildren().add(createContent());
+            Scene scene = new Scene(vbox);
+            stage.setScene(scene);
+        });
+        
+        root.getChildren().addAll(btn1, btn2, btn3);
+        return root;
     }
     
     @Override
     public void start(Stage primaryStage) {
         grid = new Tile[WIDTH][HEIGHT];
         try {
-            main = primaryStage;
-            vbox.getChildren().add(createContent());
-            Scene scene = new Scene(vbox);
-            main.setScene(scene);
-            main.setResizable(false);
-            main.sizeToScene();
-            main.show();
+            stage = primaryStage;
+            Scene scene = new Scene(mainMenu());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.sizeToScene();
+            stage.show();
         } catch(Exception e) {
             e.printStackTrace();
         }
