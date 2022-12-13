@@ -1,6 +1,5 @@
 package minesweeperapp;
 
-import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
@@ -11,12 +10,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -27,14 +22,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Screen;
-import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 
 public class Main extends Application{
-    private static int WIDTH;
-    private static int HEIGHT;
+    private static int width;
+    private static int height;
     private static int bombPercent;
+    private static int gamesCount = 0;
     static int foundBombs, numBombs;
 
     
@@ -47,10 +41,10 @@ public class Main extends Application{
         numBombs = 0;
         foundBombs = 0;
         Pane root = new Pane();
-        root.setPrefSize(WIDTH * GameTile.TILE_SIZE, HEIGHT * GameTile.TILE_SIZE);
-        grid = new GameTile[WIDTH][HEIGHT];
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
+        root.setPrefSize(width * GameTile.TILE_SIZE, height * GameTile.TILE_SIZE);
+        grid = new GameTile[width][height];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
 
                 GameTile tile = new GameTile(x, y, false);
 
@@ -59,12 +53,12 @@ public class Main extends Application{
             }
         }
         
-        for(int i = 0; i < HEIGHT * WIDTH / bombPercent; i++){
+        for(int i = 0; i < height * width / bombPercent; i++){
 
             Random rand = new Random();
 
-            int x = rand.nextInt(WIDTH);
-            int y = rand.nextInt(HEIGHT);
+            int x = rand.nextInt(width);
+            int y = rand.nextInt(height);
 
             if(grid[x][y].hasBomb){
                 if (i == 0) {
@@ -79,8 +73,8 @@ public class Main extends Application{
             }
         }
 
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
 
                 int numNeighboursBomb = 0;
 
@@ -95,7 +89,7 @@ public class Main extends Application{
                     int newX = x + dx;
                     int newY = y + dy;
 
-                    if (newX >= 0 && newX < WIDTH && newY >= 0 && newY < HEIGHT) {
+                    if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
                         neighbours.add(grid[newX][newY]);
                         if (grid[newX][newY].hasBomb) {
                             numNeighboursBomb++;
@@ -117,7 +111,7 @@ public class Main extends Application{
     }
         
     private static void reload() {
-        grid = new GameTile[Main.WIDTH][Main.HEIGHT];
+        grid = new GameTile[Main.width][Main.height];
         
         Score score = new Score();
         
@@ -174,6 +168,10 @@ public class Main extends Application{
             root.getChildren().add(text);
         }
         
+
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(30);
+        
         Scene scene = new Scene(root, 500, 500);
         
         Alert gameOver = new Alert(AlertType.INFORMATION);
@@ -186,13 +184,6 @@ public class Main extends Application{
         
         stage.setScene(scene);
     }          
-    
-    @Override
-    public void stop() throws Exception {
-        System.out.println("STOP");
-        Platform.exit();
-        System.exit(0);
-    }
     
     public void setButton(Button btn, Font font, int height, int width) {
         btn.setFont(font);
@@ -215,8 +206,8 @@ public class Main extends Application{
         text.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         
         btn1.setOnAction(e -> {
-            WIDTH = Setting.EASY.width;
-            HEIGHT = Setting.EASY.height;
+            width = Setting.EASY.width;
+            height = Setting.EASY.height;
             bombPercent = Setting.EASY.bombPercent;
             vbox.getChildren().add(createContent());
             Scene scene = new Scene(vbox);
@@ -224,8 +215,8 @@ public class Main extends Application{
         });
         
         btn2.setOnAction(e -> {
-            WIDTH = Setting.MEDIUM.width;
-            HEIGHT = Setting.MEDIUM.height;
+            width = Setting.MEDIUM.width;
+            height = Setting.MEDIUM.height;
             bombPercent = Setting.MEDIUM.bombPercent;
             vbox.getChildren().add(createContent());
             Scene scene = new Scene(vbox);
@@ -233,8 +224,8 @@ public class Main extends Application{
         });
         
         btn3.setOnAction(e -> {
-            WIDTH = Setting.HARD.width;
-            HEIGHT = Setting.HARD.height;
+            width = Setting.HARD.width;
+            height = Setting.HARD.height;
             bombPercent = Setting.HARD.bombPercent;
             vbox.getChildren().add(createContent());
             Scene scene = new Scene(vbox);

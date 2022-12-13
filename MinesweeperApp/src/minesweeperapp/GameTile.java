@@ -12,14 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class GameTile extends StackPane implements ClickBehaviour {
+public class GameTile extends BaseTile implements ClickBehaviour {
     
     ArrayList<GameTile> neighbours = new ArrayList<>();
-    Button btn = new Button();
     
     private boolean active = true;
-    static final int TILE_SIZE = 30;
-    boolean hasBomb;
+
     int bombs = 0;
     private boolean flagged = false;
     
@@ -28,14 +26,7 @@ public class GameTile extends StackPane implements ClickBehaviour {
     static Image mine = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\mine.png");
     
     public GameTile(int x, int y, boolean hasBomb) {
-        this.hasBomb = hasBomb;
-        
-        if (hasBomb) {
-            Main.numBombs++;
-        }
-        
-        btn.setPrefHeight(TILE_SIZE);
-        btn.setPrefWidth(TILE_SIZE);
+        super.hasBomb = hasBomb;
         
         btn.setOnMouseClicked(this::onClick);
         getChildren().addAll(btn);

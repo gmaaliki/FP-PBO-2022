@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
 
-//@SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
 
 public class Score {
     private static int seconds;
@@ -63,6 +63,11 @@ public class Score {
     }
     
     public static int getTime() {
+        return seconds;
+    }
+    
+    public int getTime(boolean onConsole) {
+        if(onConsole) System.out.println("The total time is " + seconds + "seconds");
         return seconds;
     }
     
