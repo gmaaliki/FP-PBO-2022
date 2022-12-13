@@ -97,13 +97,7 @@ GUI yang saya terapkan adalah menggunakan JavaFX dan sebagian besar terdiri dari
 ```
 ###### Interface
 Saya memakai sebuah interface mouseBehaviour untuk GameTile yang berfungsi untuk menaruh keharusan mengimplementasikan fungsi klik pada tile
-```
-public interface ClickBehaviour {
-    // Object tile harus bisa di click
-    abstract void onClick(MouseEvent e);
-    abstract void blankClick(GameTile tile);
-}
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/ee740621d132960d238619fa6d26d40546c600da/MinesweeperApp/src/minesweeperapp/ClickBehaviour.java#L5-L9
 ###### Abstract Class
 Saya menggunakan abstract class BaseTile sebagai basis pembangunan GameTile yang akan dipakai untuk game.
 ```
@@ -156,4 +150,3 @@ HashSet<Pair> highScoreSet = new HashSet<>();
 ```
 ###### Input Output
 Penyimpanan skor adalah menggunakan file .txt jadi saya menerapkan fungsi input output untuk melakukan fungsi read dan write agar bisa mendapat rekaman skor dari semua permainan yang dimainkan di lokal.
-https://github.com/gmaaliki/FP-PBO-2022/blob/main/MinesweeperApp/src/minesweeperapp/Score.java#L29-L38
