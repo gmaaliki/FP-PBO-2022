@@ -78,5 +78,3 @@ Saya menerapkan fitur skor dimana skor terbaik untuk setiap nama pemain akan dis
 ###### Input Output
 Penyimpanan skor adalah menggunakan file .txt jadi saya menerapkan fungsi input output untuk melakukan fungsi read dan write agar bisa mendapat rekaman skor dari semua permainan yang dimainkan di lokal.
 ```
-
-```
