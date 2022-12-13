@@ -14,17 +14,69 @@ Saya menggunakan sebuah Pair<String,Integer> yang menggambarkan high score dari 
 ```
 
 ```
+
 ###### Constructor
+Constructor telah banyak saya pakai dalam kode ini. Tetapi yang ingin saya tunjukkan adalah penggunaan konstruktor dalam enum class saya yang berguna untuk menentukan tingkat kesusahan game
+```
+
+```
+
 ###### Overloading
+Overloading yang saya terapkan adalah di sebuah metode yang dapat mereturn waktu dan juga antara mengoutputkan ke console atau tidak
+```
+
+```
+
 ###### Overriding
+Saya melakukan override kepada metode yang ada di interface clickBehaviour untuk diimplementasikan kepada kelas GameTile dan juga override metode run untuk menghitung waktu
+```
+```
+
 ###### Encapsulation
+Saya mengengkapsulasi berbagai hal sebagai bentuk dari penerapan OOP. Salah satunya adalah jumlah permainan per sesi dan waktu yang tercatat. dan saya akan mengakses variable tersebut dengan metode.
+```
+```
 ###### Inheritance
+Saya menginherit basis dari GameTile yaitu BaseTile yang berisi ukuran serta catatan bomb yang ada.
+```
+```
 ###### Polymorphism
+Beberapa contoh dalam polymorphism adalah dari overloading dan overriding yang sudah saya jelaskan sebelumnya.
+```
+
+```
 ###### ArrayList
+Array List saya gunakan untuk melakukan sort kepada skor dari HashSet dan juga sebagai penampung object Pair yang menyimpan data nama pemain dan skor terbaik
+```
+```
+
 ###### Exception Handling
+Pada metode getHighScore saya perlu menggunakan input file jadi saya gunakan throw FileNotFoundException untuk mengantisipasi apabila filenya hilang
+```
+
+```
 ###### GUI
+GUI yang saya terapkan adalah menggunakan JavaFX dan sebagian besar terdiri dari button yang menggambarkan petak-petak pada game minesweeper
+```
+```
 ###### Interface
+Saya memakai sebuah interface mouseBehaviour untuk GameTile yang berfungsi untuk menaruh keharusan mengimplementasikan fungsi klik pada tile
+```
+```
 ###### Abstract Class
+Saya menggunakan abstract class BaseTile sebagai basis pembangunan GameTile yang akan dipakai untuk game.
+```
+```
 ###### Generics
+```
+
+```
 ###### Collection
+Saya menerapkan fitur skor dimana skor terbaik untuk setiap nama pemain akan disimpan dan akan ditunjukkan di akhir game. Oleh karena itu saya menggunakan HashSet agar tidak terjadi duplikat diantara nama yang sama.
+```
+```
 ###### Input Output
+Penyimpanan skor adalah menggunakan file .txt jadi saya menerapkan fungsi input output untuk melakukan fungsi read dan write agar bisa mendapat rekaman skor dari semua permainan yang dimainkan di lokal.
+```
+
+```
