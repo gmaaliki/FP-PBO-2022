@@ -3,150 +3,46 @@
 Nama    : Ghifari Maaliki Syafa Syuhada
 NRP     : 5025211158
 
-Untuk final project PBO saya akan membuat game minesweeper sederhana dengan menggunakan bahasa pemrograman Java dan menggunakan javafx untuk GUInya. Minesweeper adalah game yang permainannya terdiri dari beberapa kotak-kotak yang tertutup. Dibalik beberapa kotak-kotak tersebut terdapat beberapa ranjau. Tujuan dari gamenya adalah untuk membuka semua kotak yang tidak memiliki ranjau. Pada kotak kosong yang telah kita buka akan terdapat petunjuk berupa angka yang menggambarkan jumlah ranjau yang disentuh oleh kotak tersebut baik secara vertikal, horizontal, maupun diagonal. Hasil yang diharapkan adalah game minesweeper sederhana yang bisa dimainkan dengan mengikuti aturan-aturan sebelumnya.
+- Rencana awal
+Untuk final project PBO saya akan membuat game minesweeper sederhana dengan menggunakan bahasa pemrograman Java dan menggunakan javafx untuk GUInya. Minesweeper adalah game yang permainannya terdiri dari beberapa kotak-kotak yang tertutup. Dibalik beberapa kotak-kotak tersebut terdapat beberapa ranjau. Tujuan dari gamenya adalah untuk membuka semua kotak yang tidak memiliki ranjau. Pada kotak kosong yang telah kita buka akan terdapat petunjuk berupa angka yang menggambarkan jumlah ranjau yang disentuh oleh kotak tersebut baik secara vertikal, horizontal, maupun diagonal.
+
+- Pernyataan akhir
+Hasil akhir yang saya dapatkan adalah sebuah game minesweeper yang fungsional dengan tombol-tombol yang ditandai dengan ikon. Game ini memiliki 3 tingkat kesusahan. Aturan dari minsweeper dapat diterjemahkan dengan baik dan lancar. Rencana awal saya adalah membuat game ini seperti arcade dimana kita lanjut bermain terus sampai kalah dan akhirnya dihitung skornya. Skornya lalu akan ditampilkan dan dapat dibandingkan dengan nilai-nilai terbaik yang lain. Namun karena beberapa kendala saya tidak dapat membuatnya dan hasilnya hanya prototipe yang dengan usaha harusnya bisa fungsional.
+
+Saya rasa game Minesweeper ini bukanlah game yang tepat untuk mempraktikkan OOP karena jangkauannya sangat kecil dan sangat linear. Akan tetapi, saya puas dengan hasil yang saya peroleh sekarang.
 
 Berikut link refernsi yang saya pakai :
 https://github.com/avestura/Minesweeper-Persian/tree/master/src/DesignView
 
 ## Aspek OOP yang digunakan
 ###### Casting/Conversion
-Saya menggunakan sebuah Pair<String,Integer> yang menggambarkan high score dari pemain. Salah satu dari pair itu akan disortir untuk mencari yang tertinggi dan setelah itu kedua elemen pair akan dijadikan Text. Maka dari itu saya perlu mengcasting Integer menjadi String
-```
-...
-System.out.println(pair.getValue() + "" + (String) pair.getKey());
-...
-```
-
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/GameTile.java#L54-L59
 ###### Constructor
-Constructor telah banyak saya pakai dalam kode ini. Tetapi yang ingin saya tunjukkan adalah penggunaan konstruktor dalam enum class saya yang berguna untuk menentukan tingkat kesusahan game
-```
-    ...
-    Setting(int width, int height, int bombPercent) {
-        this.width = width;
-        this.height = height;
-        this.bombPercent = bombPercent;
-    }
-    ...
-```
-
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/Setting.java#L12-L16
 ###### Overloading
-Overloading yang saya terapkan adalah di sebuah metode yang dapat mereturn waktu dan juga antara mengoutputkan ke console atau tidak
-```
-    ...
-    public static int getTime() {
-        return seconds;
-    }
-    
-    public int getTime(boolean onConsole) {
-        if(onConsole) System.out.println("The total time is " + seconds + "seconds");
-        return seconds;
-    }
-    ...
-```
-
+https://github.com/gmaaliki/FP-PBO-2022/blob/d0282be1c22b86650e0db2f6d5d33dfb6a99d615/MinesweeperApp/src/minesweeperapp/Score.java#L65-L72
 ###### Overriding
-Saya melakukan override kepada metode yang ada di interface clickBehaviour untuk diimplementasikan kepada kelas GameTile dan juga override metode run untuk menghitung waktu
-```
-    @Override
-    public void onClick(MouseEvent e) {
-    .....
-```
-
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/GameTile.java#L38-L62
 ###### Encapsulation
-Saya mengengkapsulasi berbagai hal sebagai bentuk dari penerapan OOP. Salah satunya adalah jumlah permainan per sesi dan waktu yang tercatat. dan saya akan mengakses variable tersebut dengan metode.
-```
-    private static int seconds;
-    private static int numberOfGames;
-    
-    public void gameWon() {
-        numberOfGames++;
-    }
-    
-    public void resetTime() {
-        seconds = 0;
-    }
-    
-    public void incTime() {
-        seconds++;
-    }
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/d0282be1c22b86650e0db2f6d5d33dfb6a99d615/MinesweeperApp/src/minesweeperapp/Score.java#L20-L21
+https://github.com/gmaaliki/FP-PBO-2022/blob/d0282be1c22b86650e0db2f6d5d33dfb6a99d615/MinesweeperApp/src/minesweeperapp/Score.java#L53-L63
 ###### Inheritance
-Saya menginherit basis dari GameTile yaitu BaseTile yang berisi ukuran serta catatan bomb yang ada.
-```
-public class GameTile extends BaseTile implements ClickBehaviour {
-...
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/GameTile.java#L15-L16
 ###### Polymorphism
-Beberapa contoh dalam polymorphism adalah dari overloading dan overriding yang sudah saya jelaskan sebelumnya.
-
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/ClickBehaviour.java#L5-L9
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/GameTile.java#L86-L101
 ###### ArrayList
-Array List saya gunakan untuk melakukan sort kepada skor dari HashSet dan juga sebagai penampung object Pair yang menyimpan data nama pemain dan skor terbaik
-```
-ArrayList<Pair<String,Integer>> highScoreList = new ArrayList<>();
-```
-
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/GameTile.java#L17
 ###### Exception Handling
-Pada metode getHighScore saya perlu menggunakan input file jadi saya gunakan throw FileNotFoundException untuk mengantisipasi apabila filenya hilang
-```
-public ArrayList<Pair<String,Integer>> getHighScore() throws FileNotFoundException {
-  ...
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/Main.java#L253-L265
 ###### GUI
-GUI yang saya terapkan adalah menggunakan JavaFX dan sebagian besar terdiri dari button yang menggambarkan petak-petak pada game minesweeper
-```
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/Main.java#L194-L266
 ###### Interface
-Saya memakai sebuah interface mouseBehaviour untuk GameTile yang berfungsi untuk menaruh keharusan mengimplementasikan fungsi klik pada tile
 https://github.com/gmaaliki/FP-PBO-2022/blob/ee740621d132960d238619fa6d26d40546c600da/MinesweeperApp/src/minesweeperapp/ClickBehaviour.java#L5-L9
 ###### Abstract Class
-Saya menggunakan abstract class BaseTile sebagai basis pembangunan GameTile yang akan dipakai untuk game.
-```
-public abstract class BaseTile extends StackPane {
-    
-    boolean hasBomb;
-    Button btn = new Button();
-    static final int TILE_SIZE = 30;
-    
-    BaseTile () {
-        this.hasBomb = hasBomb;
-
-        if (hasBomb) {
-            Main.numBombs++;
-        }
-
-        btn.setMinHeight(TILE_SIZE);
-        btn.setMinWidth(TILE_SIZE);
-    }
-    
-}public abstract class BaseTile extends StackPane {
-    
-    boolean hasBomb;
-    Button btn = new Button();
-    static final int TILE_SIZE = 30;
-    
-    BaseTile () {
-        this.hasBomb = hasBomb;
-
-        if (hasBomb) {
-            Main.numBombs++;
-        }
-
-        btn.setMinHeight(TILE_SIZE);
-        btn.setMinWidth(TILE_SIZE);
-    }
-    
-}
-
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/BaseTile.java#L1-L24
 ###### Collection
-Saya menerapkan fitur skor dimana skor terbaik untuk setiap nama pemain akan disimpan dan akan ditunjukkan di akhir game. Oleh karena itu saya menggunakan HashSet agar tidak terjadi duplikat diantara nama yang sama.
-```
-HashSet<Pair> highScoreSet = new HashSet<>();
-...
-        for(Pair i : highScoreSet) {
-            Pair pair = new Pair(i.getKey(),(int) i.getValue());
-            highScoreList.add(pair);
-        }
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/Score.java#L27
+https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/Score.java#L40-L47
 ###### Input Output
-Penyimpanan skor adalah menggunakan file .txt jadi saya menerapkan fungsi input output untuk melakukan fungsi read dan write agar bisa mendapat rekaman skor dari semua permainan yang dimainkan di lokal.
+https://github.com/gmaaliki/FP-PBO-2022/blob/d0282be1c22b86650e0db2f6d5d33dfb6a99d615/MinesweeperApp/src/minesweeperapp/Score.java#L29-L38
