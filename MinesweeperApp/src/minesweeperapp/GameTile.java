@@ -1,6 +1,9 @@
 package minesweeperapp;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,9 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class Tile extends StackPane implements ClickBehaviour {
+public class GameTile extends StackPane implements ClickBehaviour {
     
-    ArrayList<Tile> neighbours = new ArrayList<>();
+    ArrayList<GameTile> neighbours = new ArrayList<>();
     Button btn = new Button();
     
     private boolean active = true;
@@ -23,8 +26,8 @@ public class Tile extends StackPane implements ClickBehaviour {
     Color color = null;
     static Image flag = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\flag.png");
     static Image mine = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\mine.png");
-        
-    public Tile(int x, int y, boolean hasBomb) {
+    
+    public GameTile(int x, int y, boolean hasBomb) {
         this.hasBomb = hasBomb;
         
         if (hasBomb) {
@@ -86,7 +89,7 @@ public class Tile extends StackPane implements ClickBehaviour {
     }
 
     @Override
-    public void blankClick(Tile tile) {
+    public void blankClick(GameTile tile) {
         for (int i = 0; i < tile.neighbours.size(); i++) {
             if (tile.neighbours.get(i).active) {
                 tile.neighbours.get(i).btn.setDisable(true);

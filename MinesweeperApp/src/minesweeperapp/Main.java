@@ -1,5 +1,6 @@
 package minesweeperapp;
 
+import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
@@ -23,6 +28,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import javafx.stage.WindowEvent;
+import javafx.util.Pair;
 
 public class Main extends Application{
     private static int WIDTH;
@@ -31,7 +38,7 @@ public class Main extends Application{
     static int foundBombs, numBombs;
 
     
-    private static Tile[][] grid;
+    private static GameTile[][] grid;
     private static Stage stage;
     private Score score = new Score();
     private static VBox vbox = new VBox();
@@ -40,12 +47,12 @@ public class Main extends Application{
         numBombs = 0;
         foundBombs = 0;
         Pane root = new Pane();
-        root.setPrefSize(WIDTH * Tile.TILE_SIZE, HEIGHT * Tile.TILE_SIZE);
-        grid = new Tile[WIDTH][HEIGHT];
+        root.setPrefSize(WIDTH * GameTile.TILE_SIZE, HEIGHT * GameTile.TILE_SIZE);
+        grid = new GameTile[WIDTH][HEIGHT];
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
 
-                Tile tile = new Tile(x, y, false);
+                GameTile tile = new GameTile(x, y, false);
 
                 grid[x][y] = tile;
                 root.getChildren().add(tile);
@@ -77,7 +84,7 @@ public class Main extends Application{
 
                 int numNeighboursBomb = 0;
 
-                ArrayList<Tile> neighbours = new ArrayList<>();
+                ArrayList<GameTile> neighbours = new ArrayList<>();
 
                 int[] neighboursLocs = new int[] { -1, -1, -1, 0, -1, 1, 0, -1, 0, 1, 1, -1, 1, 0, 1, 1 };
 
@@ -110,7 +117,7 @@ public class Main extends Application{
     }
         
     private static void reload() {
-        grid = new Tile[Main.WIDTH][Main.HEIGHT];
+        grid = new GameTile[Main.WIDTH][Main.HEIGHT];
         
         Score score = new Score();
         
@@ -130,9 +137,7 @@ public class Main extends Application{
     }
     
     public static void win() {
-        
-        Score score = new Score();
-        
+                
         Image winImage = new Image("C:\\FP-PBO-2022\\MinesweeperApp\\src\\minesweeperapp\\ThumbsUp.png");
         ImageView winImageView = new ImageView(winImage);
         
@@ -142,7 +147,7 @@ public class Main extends Application{
 
         
         Alert win = new Alert(Alert.AlertType.CONFIRMATION);
-        ((Stage) win.getDialogPane().getScene().getWindow()).getIcons().add(Tile.mine);
+        ((Stage) win.getDialogPane().getScene().getWindow()).getIcons().add(GameTile.mine);
         win.setGraphic(winImageView);
         win.setTitle("Win!");
         win.setHeaderText("Keep Going!");
@@ -151,29 +156,46 @@ public class Main extends Application{
         reload();
     }
     
-    public static void gameOver() {
-        
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                if (grid[x][y].hasBomb) {
-                    ImageView mineIcon = new ImageView(Tile.mine);
-                    mineIcon.setFitHeight(15);
-                    mineIcon.setFitWidth(10);
-                    
-                    grid[x][y].btn.setGraphic(mineIcon);
-                    grid[x][y].btn.setDisable(true);
-                }
-            }
+    public static void gameOver() throws Exception {
+        VBox root = new VBox();
+        Score score = new Score();
+        ArrayList<Pair<String,Integer>> highScoreList = null;
+        try {
+            highScoreList = new ArrayList<Pair<String,Integer>>(score.getHighScore());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         
+        for(int i = 0; i < 5; i++) {
+            String str1 = new String();
+            String str2 = new String();
+            
+            str1 = highScoreList.get(i).getKey();
+            str2 = Integer.toString(highScoreList.get(i).getValue());
+            Text text = new Text(str1 + " " + str2);
+            text.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+            root.getChildren().add(text);
+        }
         Alert gameOver = new Alert(AlertType.INFORMATION);
-        ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(Tile.mine);
+        ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(GameTile.mine);
         gameOver.setTitle("Game Over!");
-        gameOver.setGraphic(new ImageView(Tile.mine));
+        gameOver.setGraphic(new ImageView(GameTile.mine));
         gameOver.setHeaderText("Bomb Exploded!");
         gameOver.setContentText("Oh no! You clicked on a bomb and caused all the bombs to explode! Better luck next time.");
-        gameOver.showAndWait();        
-        reload();
+        gameOver.showAndWait();    
+        
+        Scene scene = new Scene(root, 500, 500);
+        stage.setScene(scene);
+        stage.showAndWait();
+
+    }          
+    
+    @Override
+    public void stop() throws Exception {
+        System.out.println("STOP");
+        Platform.exit();
+        System.exit(0);
     }
     
     public void setButton(Button btn, Font font, int height, int width) {
@@ -245,16 +267,12 @@ public class Main extends Application{
             primaryStage.setTitle("Minesweeper");
             stage = primaryStage;
             Scene scene = new Scene(mainMenu(), 500, 500);
-            stage.getIcons().add(Tile.mine);
+
+            stage.getIcons().add(GameTile.mine);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.sizeToScene();
             stage.show();
-            
-            // Center the window
-            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-            primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
-            primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
         } catch(Exception e) {
             e.printStackTrace();
         }
