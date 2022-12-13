@@ -156,14 +156,4 @@ HashSet<Pair> highScoreSet = new HashSet<>();
 ```
 ###### Input Output
 Penyimpanan skor adalah menggunakan file .txt jadi saya menerapkan fungsi input output untuk melakukan fungsi read dan write agar bisa mendapat rekaman skor dari semua permainan yang dimainkan di lokal.
-```
-Scanner inp = new Scanner(file);
-        
-        while(inp.hasNext()) {
-            String name = new String(inp.next());
-            int points = inp.nextInt();
-            Pair pair = new Pair(name,points);
-            highScoreList.add(pair);
-            System.out.println(pair.getValue() + "" + (String) pair.getKey());
-        }
-```
+https://github.com/gmaaliki/FP-PBO-2022/blob/main/MinesweeperApp/src/minesweeperapp/Score.java#L29-L38
