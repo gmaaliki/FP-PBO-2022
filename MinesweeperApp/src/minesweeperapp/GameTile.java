@@ -51,9 +51,13 @@ public class GameTile extends StackPane implements ClickBehaviour {
         if(!flagged) {
             btn.setBackground(null);
             btn.setDisable(true);
-            active = true;
+            active = false;
             if (hasBomb) {
-                Main.gameOver();
+                try {
+                    Main.gameOver();
+                } catch (Exception ex) {
+                    Logger.getLogger(GameTile.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 // Blank
                 if (this.bombs == 0) {
@@ -104,4 +108,5 @@ public class GameTile extends StackPane implements ClickBehaviour {
             }
         }
     }
+    
 }

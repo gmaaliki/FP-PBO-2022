@@ -160,12 +160,7 @@ public class Main extends Application{
         VBox root = new VBox();
         Score score = new Score();
         ArrayList<Pair<String,Integer>> highScoreList = null;
-        try {
-            highScoreList = new ArrayList<Pair<String,Integer>>(score.getHighScore());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        highScoreList = new ArrayList<>(score.getHighScore());
         
         for(int i = 0; i < 5; i++) {
             String str1 = new String();
@@ -173,22 +168,23 @@ public class Main extends Application{
             
             str1 = highScoreList.get(i).getKey();
             str2 = Integer.toString(highScoreList.get(i).getValue());
+            
             Text text = new Text(str1 + " " + str2);
             text.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
             root.getChildren().add(text);
         }
+        
+        Scene scene = new Scene(root, 500, 500);
+        
         Alert gameOver = new Alert(AlertType.INFORMATION);
         ((Stage) gameOver.getDialogPane().getScene().getWindow()).getIcons().add(GameTile.mine);
         gameOver.setTitle("Game Over!");
         gameOver.setGraphic(new ImageView(GameTile.mine));
         gameOver.setHeaderText("Bomb Exploded!");
         gameOver.setContentText("Oh no! You clicked on a bomb and caused all the bombs to explode! Better luck next time.");
-        gameOver.showAndWait();    
+        gameOver.show(); 
         
-        Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
-        stage.showAndWait();
-
     }          
     
     @Override

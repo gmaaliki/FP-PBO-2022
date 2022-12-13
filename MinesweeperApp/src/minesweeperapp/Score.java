@@ -14,13 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
 
+//@SuppressWarnings("unchecked")
+
 public class Score {
     private static int seconds;
     private static int numberOfGames;
     public static Timer timer;
-    
-    private FileInputStream in = null;
-    private FileOutputStream out = null;
     
     //highsoore global sama high score pribadi
     public ArrayList<Pair<String,Integer>> getHighScore() throws FileNotFoundException {
@@ -36,7 +35,6 @@ public class Score {
             Pair pair = new Pair(name,points);
             highScoreList.add(pair);
             System.out.println(pair.getValue() + "" + (String) pair.getKey());
-            System.out.println("DF");
         }
         
         for(Pair i : highScoreSet) {
@@ -47,9 +45,6 @@ public class Score {
         Collections.sort(highScoreList, Comparator.comparing(p -> -p.getValue()));
         return highScoreList;
     }
-    
-    
-
     
 //    public int calculateScore() {
 //        
