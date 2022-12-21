@@ -14,6 +14,9 @@ Saya rasa game Minesweeper ini bukanlah game yang tepat untuk mempraktikkan OOP 
 Berikut link refernsi yang saya pakai :
 https://github.com/avestura/Minesweeper-Persian/tree/master/src/DesignView
 
+Berikut demo singkat dari proyek ini :
+https://youtu.be/hPdNxBxJU1Y
+
 ## Aspek OOP yang digunakan
 ###### Casting/Conversion
 https://github.com/gmaaliki/FP-PBO-2022/blob/0c55a5dfdd4850dfef9426a4003b7ba24bf3d7a7/MinesweeperApp/src/minesweeperapp/GameTile.java#L54-L59
